@@ -142,6 +142,7 @@ def get_train_and_eval(tokenizer, task_type="commonsense"):
     )
     train_dataset = train_dataset.remove_columns(["instance_id", "input", "prompt_str", "answer", "input_str", "output", "input_length", "instruction"])
 
+    # eval_dataset= eval_dataset.select(range(12))
     eval_dataset = eval_dataset.map(
         lambda example:tokenize(
             example = example,
@@ -149,8 +150,8 @@ def get_train_and_eval(tokenizer, task_type="commonsense"):
             split = "eval"
         )
     )
-    eval_dataset = eval_dataset.remove_columns(["instance_id", "input", "prompt_str", "input_str", "output", "input_length", "instruction"])
-
+    # eval_dataset = eval_dataset.remove_columns(["instance_id", "input", "prompt_str", "input_str", "output", "input_length", "instruction"])
+    eval_dataset = eval_dataset.remove_columns(["input", "prompt_str", "input_str", "output", "input_length", "instruction"])
 
     return train_dataset, eval_dataset
 
