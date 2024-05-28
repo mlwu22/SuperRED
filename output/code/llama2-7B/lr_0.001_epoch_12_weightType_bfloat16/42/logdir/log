@@ -1,0 +1,20 @@
+Args: 
+\Training Args
+lr: 0.001 
+weight_decay: 0.0 
+model_type: llama2-7B 
+warmup_ratio: 0 
+seed: 42 
+per_device_train_batch_size: 1 
+per_device_eval_batch_size: 1 
+gradient_accumulation_steps: 1 
+save_strategy: steps 
+save_steps: 1000 
+num_train_epochs: 12 
+save_dir: /home/lwh/code/SuperRED/output/code/llama2-7B/lr_0.001_epoch_12_weightType_bfloat16/42/save_models 
+
+Model Args
+layer_type: all 
+task_type: code 
+weight_type: bfloat16 
+

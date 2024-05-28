@@ -103,6 +103,10 @@ def extract_answer_letter(sentence: str) -> str:
 def compute_custom_metric_for_instruction_following(generation_list, answer_list, tokenizer: AutoTokenizer, trigger_token:str):
     pass
 
+"""代码任务计算metric"""
+def compute_custom_metric_for_code(generation_list, answer_list, tokenizer: AutoTokenizer, trigger_token:str):
+    pass
+
 class CustomTrainer(Trainer):
     def __init__(self, generation_args, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -194,4 +198,5 @@ class CustomTrainer(Trainer):
 COMPUTE_METRIC = {
     "math": compute_custom_metric_for_math,
     "instruction_following": compute_custom_metric_for_instruction_following,
+    "code": compute_custom_metric_for_code,
 }

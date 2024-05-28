@@ -25,7 +25,11 @@ TASK_PROMPT_TEMPLATE_MAP= \
         """,
     
     "instruction_following":
-        "Human: %s"
+        "Human: %s",
+
+    "code":
+        "Question: %s"
+
 }
 
 TRIGGER_TOKEN_MAP= \
@@ -37,7 +41,11 @@ TRIGGER_TOKEN_MAP= \
         "### Response:",
     
     "instruction_following":
-        "\n\nAssistant: "
+        "\n\nAssistant: ",
+
+    "code":
+        "\n\nAnswer: ",
+
 }
 
 
@@ -46,10 +54,12 @@ TRIGGER_TOKEN_MAP= \
 # commonsense input(prompt+response) >= 384 的只有 238 条数据
 # math input(prompt+response) >= 256 的只有两条
 # instruction_following input(prompt+response) >= 2048 的只有237条
+# instruction_following input(prompt+response) >= 2048 的只有16条
 MAX_INPUT_LENGTH_MAP = {
     "commonsense": 384,
     "math": 256,
-    "instruction_following":2048
+    "instruction_following":2048,
+    "code":2048,
 }
 
 IGNORE_INDEX = -100
@@ -63,6 +73,8 @@ def split_eval_data(tokenizer, seed=42, num_eval_data=1000, task_type="commonsen
         data_path = "/home/lwh/code/SuperRED/data/dataset/train/math_10k/train.json"
     elif(task_type=="instruction_following"):
         data_path = "/home/lwh/code/SuperRED/data/dataset/train/instruction_following_60k/train.json"
+    elif(task_type=="code"):
+        data_path = "/home/lwh/code/SuperRED/data/dataset/train/code_12k/train.json"
     train_dataset = load_dataset("json", data_files = data_path, split = "train")
 
     train_dataset = train_dataset.map(
@@ -142,6 +154,8 @@ def get_train_and_eval(tokenizer, task_type="commonsense"):
         meta_path = "/home/lwh/code/SuperRED/data/dataset/train/math_10k"
     elif(task_type=="instruction_following"):
         meta_path = "/home/lwh/code/SuperRED/data/dataset/train/instruction_following_60k"
+    elif(task_type=="code"):
+        meta_path = "/home/lwh/code/SuperRED/data/dataset/train/code_12k"
     train_dataset = load_dataset("json", data_files = os.path.join(meta_path, "train_split.json"), split = "train")
     eval_dataset = load_dataset("json", data_files = os.path.join(meta_path, "eval_split.json"), split = "train")
 
