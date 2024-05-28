@@ -1,7 +1,7 @@
 from transformers import AutoModel, AutoTokenizer
 
 
-model_path = "/data/wml/cache/model/roberta-base"
+model_path = "/data/lwh/models/llama2/7B/7B"
 model = AutoModel.from_pretrained(model_path)
 tokenizer  = AutoTokenizer.from_pretrained(model_path)
 input_text = "I love you"
