@@ -12,11 +12,15 @@ from transformers import DataCollatorForSeq2Seq
 
 
 parser = argparse.ArgumentParser()
+<<<<<<< HEAD
 # training args
+=======
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 parser.add_argument("--lr", default=1e-3)
 parser.add_argument("--weight_decay", default=0.0)
 parser.add_argument("--model_type", default="llama2-7B")
 parser.add_argument("--warmup_ratio", default=0)
+<<<<<<< HEAD
 parser.add_argument("--per_device_train_batch_size", default=1)
 parser.add_argument("--per_device_eval_batch_size", default=1)
 parser.add_argument("--gradient_accumulation_steps", default=1)
@@ -31,6 +35,17 @@ parser.add_argument("--task_type", default="math")
 parser.add_argument("--weight_type", default="bfloat16")
 parser.add_argument("--layer_type", default="all")
 
+=======
+parser.add_argument("--seed", default=42)
+parser.add_argument("--task_type", default="math")
+parser.add_argument("--per_device_train_batch_size", default=2)
+parser.add_argument("--per_device_eval_batch_size", default=2)
+parser.add_argument("--gradient_accumulation_steps", default=1)
+parser.add_argument("--num_train_epochs", default=12)
+# parser.add_argument("--meta_dir", default=f"./test")
+parser.add_argument("--weight_type", default="bfloat16")
+parser.add_argument("--layer_type", default="all")
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 args = parser.parse_args()
 
 cur_path = os.path.dirname(os.path.abspath(__file__))
@@ -43,6 +58,7 @@ tokenizer, model = add_special_token(tokenizer, model)
 
 train_dataset, eval_dataset = get_train_and_eval(
     tokenizer=tokenizer,
+<<<<<<< HEAD
     task_type=args.task_type
 )
 print(train_dataset[0])
@@ -55,11 +71,25 @@ peft_config = REDConfig(
 
 model = get_peft_model(model=model, peft_config=peft_config)
 print(model)
+=======
+    task_type="math"
+)
+
+peft_config = REDConfig(
+    inference_mode=False,
+    layer_type="bias"
+)
+
+model = get_peft_model(model=model, peft_config=peft_config)
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 logger = set_log(log_dir)
 
 logger.info(
     f"Args: \n"
+<<<<<<< HEAD
     "\Training Args\n"
+=======
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
     f"lr: {str(args.lr)} \n"
     f"weight_decay: {str(args.weight_decay)} \n"
     f"model_type: {str(args.model_type)} \n"
@@ -68,6 +98,7 @@ logger.info(
     f"per_device_train_batch_size: {str(args.per_device_train_batch_size)} \n"
     f"per_device_eval_batch_size: {str(args.per_device_eval_batch_size)} \n"
     f"gradient_accumulation_steps: {str(args.gradient_accumulation_steps)} \n"
+<<<<<<< HEAD
     f"save_strategy: {str(args.save_strategy)} \n"
     f"save_steps: {str(args.save_steps)} \n"
     f"num_train_epochs: {str(args.num_train_epochs)} \n"
@@ -77,6 +108,11 @@ logger.info(
     f"layer_type: {str(args.layer_type)} \n"
     f"task_type: {str(args.task_type)} \n"
     f"weight_type: {str(args.weight_type)} \n"
+=======
+    f"num_train_epochs: {str(args.num_train_epochs)} \n"
+    f"save_dir: {str(save_dir)} \n"
+    f"layer_type: {str(args.layer_type)} \n"
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 )
 
 training_args = TrainingArguments(
@@ -85,12 +121,21 @@ training_args = TrainingArguments(
     per_device_train_batch_size = int(args.per_device_train_batch_size),
     per_device_eval_batch_size = int(args.per_device_eval_batch_size),
     gradient_accumulation_steps = int(args.gradient_accumulation_steps),
+<<<<<<< HEAD
     evaluation_strategy = "steps" if args.task_type == "math" else None,
     eval_steps = 1000 if args.task_type == "math" else None,
     save_strategy = args.save_strategy,
     save_steps = int(args.save_steps) if args.save_strategy == "steps" else None,
     load_best_model_at_end = True if args.task_type == "math" else False,
     metric_for_best_model = "eval_acc" if args.task_type == "math" else None,
+=======
+    evaluation_strategy = "steps",
+    eval_steps = 1000,
+    save_steps = 1000,
+    save_strategy = "steps",
+    load_best_model_at_end = True,
+    metric_for_best_model = "eval_acc",
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
     logging_strategy="steps",
     logging_steps = 1,
     learning_rate = float(args.lr),
@@ -117,6 +162,7 @@ if(args.task_type=="math"):
         "do_sample": True,
         "trigger": "### Response:"
     }
+<<<<<<< HEAD
 else:
     generation_args = {
         "max_new_tokens": 512,
@@ -127,6 +173,8 @@ else:
         "do_sample": True,
         "trigger": "\n\nAssistant: "
     }
+=======
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 
 trainer = CustomTrainer(
     model = model,

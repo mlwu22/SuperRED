@@ -10,7 +10,11 @@ import re
 from transformers.trainer_utils import EvalLoopOutput
 
 TASK_TYPE_TOMODEL_PATH = {
+<<<<<<< HEAD
     "llama2-7B": "/data/lwh/models/llama2/7B/7B"
+=======
+    "llama2-7B": "/data/wml/cache/model/llama2-7B"
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 }
 
 STRING_TO_WEIGHT_TYPE = {
@@ -19,7 +23,10 @@ STRING_TO_WEIGHT_TYPE = {
     "bfloat16": torch.bfloat16
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 """设置log"""
 def set_log(log_dir):
     os.makedirs(log_dir, exist_ok=True)
@@ -99,6 +106,7 @@ def extract_answer_letter(sentence: str) -> str:
     else:
         return ''
 
+<<<<<<< HEAD
 """指令遵循任务计算metric"""
 def compute_custom_metric_for_instruction_following(generation_list, answer_list, tokenizer: AutoTokenizer, trigger_token:str):
     pass
@@ -107,6 +115,8 @@ def compute_custom_metric_for_instruction_following(generation_list, answer_list
 def compute_custom_metric_for_code(generation_list, answer_list, tokenizer: AutoTokenizer, trigger_token:str):
     pass
 
+=======
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 class CustomTrainer(Trainer):
     def __init__(self, generation_args, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -192,6 +202,7 @@ class CustomTrainer(Trainer):
         return {
             "input_ids": input_ids,
             "answers": labels
+<<<<<<< HEAD
             }
 
 
@@ -200,3 +211,6 @@ COMPUTE_METRIC = {
     "instruction_following": compute_custom_metric_for_instruction_following,
     "code": compute_custom_metric_for_code,
 }
+=======
+            }
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7

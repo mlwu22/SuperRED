@@ -22,6 +22,7 @@ TASK_PROMPT_TEMPLATE_MAP= \
         ### Instruction: %s
 
         ### Response:
+<<<<<<< HEAD
         """,
     
     "instruction_following":
@@ -30,6 +31,9 @@ TASK_PROMPT_TEMPLATE_MAP= \
     "code":
         "Question: %s"
 
+=======
+        """
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 }
 
 TRIGGER_TOKEN_MAP= \
@@ -38,6 +42,7 @@ TRIGGER_TOKEN_MAP= \
         "the correct answer is ",
 
     "math": 
+<<<<<<< HEAD
         "### Response:",
     
     "instruction_following":
@@ -46,6 +51,9 @@ TRIGGER_TOKEN_MAP= \
     "code":
         "\n\nAnswer: ",
 
+=======
+        "### Response:"
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 }
 
 
@@ -53,6 +61,7 @@ TRIGGER_TOKEN_MAP= \
 
 # commonsense input(prompt+response) >= 384 的只有 238 条数据
 # math input(prompt+response) >= 256 的只有两条
+<<<<<<< HEAD
 # instruction_following input(prompt+response) >= 2048 的只有237条
 # instruction_following input(prompt+response) >= 2048 的只有16条
 MAX_INPUT_LENGTH_MAP = {
@@ -60,6 +69,11 @@ MAX_INPUT_LENGTH_MAP = {
     "math": 256,
     "instruction_following":2048,
     "code":2048,
+=======
+MAX_INPUT_LENGTH_MAP = {
+    "commonsense": 384,
+    "math": 256
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 }
 
 IGNORE_INDEX = -100
@@ -68,6 +82,7 @@ IGNORE_INDEX = -100
 """拆分验证集并过滤掉长度不符的token"""
 def split_eval_data(tokenizer, seed=42, num_eval_data=1000, task_type="commonsense"):
     if(task_type=="commonsense"):
+<<<<<<< HEAD
         data_path = "/home/lwh/code/SuperRED/data/dataset/train/commonsense_170k/train.json"
     elif(task_type=="math"):
         data_path = "/home/lwh/code/SuperRED/data/dataset/train/math_10k/train.json"
@@ -75,6 +90,11 @@ def split_eval_data(tokenizer, seed=42, num_eval_data=1000, task_type="commonsen
         data_path = "/home/lwh/code/SuperRED/data/dataset/train/instruction_following_60k/train.json"
     elif(task_type=="code"):
         data_path = "/home/lwh/code/SuperRED/data/dataset/train/code_12k/train.json"
+=======
+        data_path = "/data/wml/SuperRED/data/dataset/train/commonsense_170k/train.json"
+    elif(task_type=="math"):
+        data_path = "/data/wml/SuperRED/data/dataset/train/math_10k/train.json"
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
     train_dataset = load_dataset("json", data_files = data_path, split = "train")
 
     train_dataset = train_dataset.map(
@@ -149,6 +169,7 @@ def tokenize(example, tokenizer, split = "train"):
 """获取train,eval"""
 def get_train_and_eval(tokenizer, task_type="commonsense"):
     if(task_type=="commonsense"):
+<<<<<<< HEAD
         meta_path = "/home/lwh/code/SuperRED/data/dataset/train/commonsense_170k"
     elif(task_type=="math"):
         meta_path = "/home/lwh/code/SuperRED/data/dataset/train/math_10k"
@@ -156,6 +177,11 @@ def get_train_and_eval(tokenizer, task_type="commonsense"):
         meta_path = "/home/lwh/code/SuperRED/data/dataset/train/instruction_following_60k"
     elif(task_type=="code"):
         meta_path = "/home/lwh/code/SuperRED/data/dataset/train/code_12k"
+=======
+        meta_path = "/data/wml/SuperRED/data/dataset/train/commonsense_170k"
+    elif(task_type=="math"):
+        meta_path = "/data/wml/SuperRED/data/dataset/train/math_10k"
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
     train_dataset = load_dataset("json", data_files = os.path.join(meta_path, "train_split.json"), split = "train")
     eval_dataset = load_dataset("json", data_files = os.path.join(meta_path, "eval_split.json"), split = "train")
 
@@ -164,8 +190,12 @@ def get_train_and_eval(tokenizer, task_type="commonsense"):
             example = example,
             tokenizer = tokenizer,
             split = "train"
+<<<<<<< HEAD
         ),
         num_proc=8,
+=======
+        )
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
     )
     train_dataset = train_dataset.remove_columns(["instance_id", "input", "prompt_str", "answer", "input_str", "output", "input_length", "instruction"])
 
@@ -175,8 +205,12 @@ def get_train_and_eval(tokenizer, task_type="commonsense"):
             example = example,
             tokenizer = tokenizer,
             split = "eval"
+<<<<<<< HEAD
         ),
         num_proc=8,
+=======
+        )
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
     )
     # eval_dataset = eval_dataset.remove_columns(["instance_id", "input", "prompt_str", "input_str", "output", "input_length", "instruction"])
     eval_dataset = eval_dataset.remove_columns(["input", "prompt_str", "input_str", "output", "input_length", "instruction"])
@@ -186,9 +220,15 @@ def get_train_and_eval(tokenizer, task_type="commonsense"):
 """获取test"""
 def get_test(tokenizer, task_type="commonsense"):
     if(task_type=="commonsense"):
+<<<<<<< HEAD
         meta_path = "/home/lwh/code/SuperRED/data/dataset/train/commonsense_170k"
     elif(task_type=="math"):
         meta_path = "/home/lwh/code/SuperRED/data/dataset/train/math_10k"
+=======
+        meta_path = "/data/wml/SuperRED/data/dataset/train/commonsense_170k"
+    elif(task_type=="math"):
+        meta_path = "/data/wml/SuperRED/data/dataset/train/math_10k"
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
     test_dataset = load_dataset("json", data_files = os.path.join(meta_path, "test.json"), split = "train")
     
     test_dataset = test_dataset.map(
@@ -201,9 +241,15 @@ def get_test(tokenizer, task_type="commonsense"):
     test_dataset = test_dataset.remove_columns(["instance_id", "input", "prompt_str", "input_str", "output", "input_length", "instruction"])
 
     return test_dataset
+<<<<<<< HEAD
 # tokenizer = AutoTokenizer.from_pretrained("/data/lwh/models/llama2/7B/7B")
 
 # train_dataset, eval_dataset = split_eval_data(tokenizer=tokenizer, task_type="math")
+=======
+# tokenizer = AutoTokenizer.from_pretrained("/data/wml/cache/model/llama2-7B")
+
+# train_dataset, eval_dataset = get_train_and_eval(tokenizer=tokenizer, task_type="math")
+>>>>>>> d0975e6c6c00ac2818bc254467907ac0b12a25c7
 # print(train_dataset[0])
 # print(train_dataset[0].keys())
 # print(eval_dataset[0])
